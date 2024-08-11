@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Login.css">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+</head>
+<body>
+    <div id="gridDiv">
+        <div id="LoginBox">
+            <form id="infoBox">
+                <div id="headerDiv">
+                    <h1>Welcome to Mind Bogglers</h1>
+                    <h1>Sign into your account</h1>
+                </div>
+                <div id="infoDiv">
+                    <input type="text" id="username" placeholder="Enter your username here">
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <div id="buttonDiv">
+                    <button id="submit">Log In</button>
+                </div>
+            </form>
+        </div>
+        <div id="PictureBox">
+            <div id="SideBox">
+                <div id="SideBox_heading">
+                    <h1>Welcome to Mind Bogglers</h1>
+                </div>
+                <div id="LowerText">
+                    <div>
+                        <span class="auto-input"></span>
+                    </div>
+                    <p>Get access to your order, wishlist and recommendations</p>
+                </div>
+            </div>
+            <!-- <img src="Gemini_Generated_Image_3u724s3u724s3u72.jpg" id="rightImage"> -->
+        </div>
+    </div>
+</div>
+<script>
+    let typed=new Typed(".auto-input",{
+        strings:["","Looking For Something New to Read ?","Have Some Mind Boggling Recommnedations !!!"],
+       typeSpeed:30,
+       backSpeed:30,
+       loop:true
+   })
+</script>
+</body>
+</html>
