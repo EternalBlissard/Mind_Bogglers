@@ -61,3 +61,21 @@ inputBox.addEventListener('focus', function() {
         displayResult(result);
     }
 });
+
+
+function validateNumberInput(event) {
+    const value = event.target.value;
+    const sanitizedValue = value.replace(/[^0-9]/g, '');
+    if (sanitizedValue === '' || parseInt(sanitizedValue, 10) < 1) {
+        event.target.value = '';
+    } else {
+        event.target.value = sanitizedValue;
+    }
+}
+
+document.getElementById('min-reviews-book').addEventListener('input', validateNumberInput);
+document.getElementById('min-reviews-user').addEventListener('input', validateNumberInput);
+document.getElementById('num-books').addEventListener('input', validateNumberInput);
+
+
+
