@@ -1,0 +1,94 @@
+body{
+    /* border: 2px solid black; */
+    /* display: grid; */
+    width:100vw;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+   
+}
+#gridDiv{
+    width:100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.35fr 0.65fr;
+    margin:0px;
+    padding:0px;
+    border: 2px solid black;
+}
+#LoginBox
+{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+#infoBox
+{
+    margin:auto;
+    border: 0.2px solid rgba(133, 133, 133, 0.526);
+    height:40%;
+    width:80%;
+    padding: 1.2em;
+    display: flex;
+    border-radius: 0.8em;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 2px solid black;
+}
+#infoDiv
+{
+    padding-right:1.2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height:40%;
+}
+#submit{
+    border:None;
+    border-radius: 0.7em;
+    padding:0.8em;
+    font-size:1.2em;
+    text-align: center;
+    background-color: rgb(61, 22, 202);
+    color:white;
+}
+#submit:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}
+input{
+    border: 2px solid rgba(170, 167, 167, 0.544);
+    border-radius:0.4em;
+    height:20%;
+    padding-left:1em;
+    font-size:1.2em;
+}
+#headerDiv{
+    color:rgb(61, 22, 202);
+    /* text-align: center; */
+    /* border: 2px solid red; */
+}
+#PictureBox{
+    /* border: 2px solid red; */
+    height: 100%;
+    background-color: rgb(18 102 95);
+    color:white;
+    font-size:2em;
+}
+.auto-input{
+    font-size:1.2em;
+}
+#SideBox{
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#errorBox{
+    color:red;
+    display: none;
+}

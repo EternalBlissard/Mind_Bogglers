@@ -1,0 +1,488 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender</title>
+
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+    <!-- <link rel="stylesheet" href="vanta-fog.css">     -->
+
+    <script src="https://kit.fontawesome.com/26c4b29c7d.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    
+    
+
+</head>
+<body style="background-color: rgb(18, 102, 95);">
+    <div class="navigation">
+        <a class="logButton" href="/user/logout/">
+            <i class="fa-regular fa-user"></i> 
+            <div class="logout">LOGOUT</div>
+        </a> 
+    </div>
+
+
+
+    <div id="loader" class="loader">
+        <div class="camera">
+            <div class="loadContainer">
+              <div class="side" style="--i: 0; background: #D9ED92;"></div>
+              <div class="side" style="--i: 1; background: #B5E48C;"></div>
+              <div class="side" style="--i: 2; background: #99D98C;"></div>
+              <div class="side" style="--i: 3; background: #76C893;"></div>
+              <div class="side" style="--i: 4; background: #52B69A;"></div>
+              <div class="side" style="--i: 5; background: #34A0A4;"></div>
+              <div class="side" style="--i: 6; background: #168AAD;"></div>
+              <div class="side" style="--i: 7; background: #1A759F;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="blur-overlay" class="blur-overlay"></div>
+
+
+
+    <div id="customToast">
+        <div class="toastRow">
+            <div class="toastCol">
+                <i id = "warning" class="fa-solid fa-triangle-exclamation"></i>
+                <strong>Book not found!</strong>
+                <p>Please Select another book</p>
+            </div>
+            
+            <button type="button" class="toastClose" data-dismiss="alert" aria-hidden="true">&times;</button>
+            
+        </div>
+    </div>
+    
+    
+
+    <div class="container">
+        <div class="left-part">
+            <div class="search-box">
+                <div class="row">
+                    <div class="random">
+                        <input type="text" id="input-box" placeholder="Search a book" autocomplete="off">
+                        <button id = "search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <!-- <div id="alert-container"></div>  Alert msg -->
+                        
+                        
+                        <div class="result-box">
+                            <!-- Result box here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="filters" method="POST" aciton="">
+                {% csrf_token %}
+                <div class="filter">
+                    <label for="min-reviews-book">Minimum number of reviews (book):</label>
+                    <input type="number" id="min-reviews-book" min="1" name="min-reviews-book">
+                </div>
+                <div class="filter">
+                    <label for="min-reviews-user">Minimum number of reviews (user):</label>
+                    <input type="number" id="min-reviews-user" min="1" name="min-reviews-user">
+                </div>
+                <div class="filter">
+                    <label for="num-books-display">Number of recommended books to display:</label>
+                    <input type="number" id="num-books-display" min="1" name="num-books-display">
+                </div>
+                <button id="apply-filters" type="submit">Apply Filters</button>
+            </form>
+
+
+
+        </div>
+
+        <div class="right-part">
+            <!-- Right side components here -->
+             <div class = "recommend-window">
+                <div class="recommend-box">
+                    <!-- Result box here -->
+                    <p id = "recommend-msg">Because you reviewed</p>
+                    <img src = "img4.jpg" alt = "book-image" id="selectedBook">
+                </div>
+            </div>
+
+            <hr class="separator">
+
+            <div class="slide-window">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators" id="carousel-indicators"></ol>
+            
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" id="carousel-inner"></div>
+            
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+
+            
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal to display info about the book -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="cardClose">&times;</span>
+            <div class="card">
+                <img id="bookImage" src="" alt="Book Image">
+                <div class="card-body">
+                    <h2 id="bookTitle">Book Title</h2>
+                    <p id="bookAuthor">Author: <span id="bookAuthorName">Author Name</span></p>
+                    <p id="bookPublisher">Publisher: <span id="bookPublisherName">Publisher Name</span></p>
+                    <p id="bookYear">Year of Publication: <span id="bookYearPublished">Year</span></p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  
+    <!-- <script src="{% static 'home/script.js' %}"></script> -->
+
+
+    <div id="particles-js"></div>      
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+    <script src="{% static 'home/particles.js' %}"></script>
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>       Vanta fog bg
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.fog.min.js"></script>
+    <script src="vanta-fog.js"></script> -->
+
+    <script>
+        function getCookie(name)
+        {
+            let cookieValue = null;
+            if(document.cookie && document.cookie !== '')
+            {
+                const cookies = document.cookie.split(';');
+                for(let i=0;i<cookies.length;i++)
+                {
+                    const cookie = cookies[i].trim();
+                    if(cookie.substring(0,name.length+1) === (name+'='))
+                    {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        let allBooks = [];
+        fetch("/user/home/",{
+            method:'POST',
+            headers:{
+                'X-CSRFToken':getCookie('csrftoken'),
+                'X-Requested-With':'XMLHttpRequest',
+                'Conetent-Type':'application/json',  
+            }
+        })
+        .then(response=>response.json())
+        // .then(data=>allBooks=data)
+        .then(data=>{
+            console.log("Data = ",data);
+            allBooks = [...data['Books']]
+            console.log("Length = ",allBooks.length)
+        })
+        .catch(error=>console.log(error));
+
+
+        const resultBox = document.querySelector('.result-box');
+        const inputBox = document.querySelector('#input-box');
+
+        inputBox.onkeyup = function() {
+            let input = inputBox.value.trim();
+            let search = input.toLowerCase();
+            
+            if (search.length > 0) {
+                let results = findPrefixMatches(allBooks, search, 15); // Limit to 15 results
+                displayResult(results);
+
+                if (results.length === 0) {
+                    resultBox.innerHTML = '<span class="no-book">No such book</span>';
+                }
+            } else {
+                resultBox.innerHTML = '';  // Clear result box if input is empty
+            }
+        }
+
+        function findPrefixMatches(arr, prefix, limit) {
+            let low = 0;
+            let high = arr.length - 1;
+            let result = [];
+
+            // Perform binary search for the first matching prefix
+            while (low <= high) {
+                let mid = Math.floor((low + high) / 2);
+                let current = arr[mid].toLowerCase();
+
+                if (current.startsWith(prefix)) {
+                    // Found a match, now collect up to `limit` matches
+                    let start = mid;
+                    // Collect preceding matches
+                    while (start >= low && result.length < limit && arr[start].toLowerCase().startsWith(prefix)) {
+                        result.unshift(arr[start]);
+                        start--;
+                    }
+                    // Collect following matches
+                    let end = mid + 1;
+                    while (end <= high && result.length < limit && arr[end].toLowerCase().startsWith(prefix)) {
+                        result.push(arr[end]);
+                        end++;
+                    }
+                    break;  // Stop search once we have enough matches
+                } else if (current < prefix) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+
+            return result;
+        }
+
+
+
+        function displayResult(result) {
+            const content = result.map((book) => {
+                return `<li>${book}</li>`;
+            }).join('');
+
+            resultBox.innerHTML = `<ul>${content}</ul>`;
+
+            // Add event listener to each list item
+            const listItems = document.querySelectorAll('.result-box ul li');
+            listItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    inputBox.value = item.textContent;
+                    resultBox.innerHTML = '';            // Clear the result box after selection
+                });
+            });
+            
+        }
+
+
+
+        // Hide suggestions when clicking outside the search box
+        document.addEventListener('click', function(event) {
+            const isClickInside = inputBox.contains(event.target);
+            const isClickInsideResultBox = resultBox.contains(event.target);
+
+            if (!isClickInside && !isClickInsideResultBox) {
+                resultBox.innerHTML = ''; // Clear the result box
+            }
+            
+        });
+
+        // Show suggestions when clicking inside the search box
+        inputBox.addEventListener('focus', function() {
+            let search = inputBox.value.toLowerCase();
+            if (search.length > 0) {
+                let result = allBooks.filter((keyword) => {
+                    return keyword.toLowerCase().includes(search);
+                });
+                displayResult(result);
+            }
+        });
+
+
+        const searchButton = document.querySelector('#search-button');
+       
+        searchButton.addEventListener('click', () => {
+            const ipbox = inputBox.value.trim()
+            const query = inputBox.value.trim().toLowerCase();
+            const bookExists = allBooks.some(book => book.toLowerCase() === query);
+            console.log("Ipbox = ",ipbox);
+            if (bookExists) {
+                // Show the loader and blur overlay
+                document.getElementById("loader").style.display = "block";
+                document.getElementById("blur-overlay").style.display = "block";
+
+                // Use setTimeout to ensure the loader displays before the fetch request starts
+                setTimeout(() => {
+                    fetch("/user/home/", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            'book_name': ipbox
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide the loader and blur overlay after successful request
+                        document.getElementById("loader").style.display = "none";
+                        document.getElementById("blur-overlay").style.display = "none";
+
+                        // Update the content with the response data
+                        console.log("Image: ", data['Books']);
+                        console.log("Recommendations: ", data['recomm']);
+
+                        const p = document.getElementById("recommend-msg");
+                        const recommendations = data['recomm'];
+                        p.innerHTML = "Your Selected Book";
+
+                        const img = document.getElementById("selectedBook");
+                        img.src = data['Books'];
+
+                        const indicators = document.getElementById('carousel-indicators');
+                        const inner = document.getElementById('carousel-inner');
+
+                        // Clear the existing carousel content
+                        indicators.innerHTML = '';
+                        inner.innerHTML = '';
+
+                        // Generate the new carousel content
+                        recommendations.forEach((item, index) => {
+                            // Create the indicator
+                            const indicator = document.createElement('li');
+                            indicator.setAttribute('data-target', '#myCarousel');
+                            indicator.setAttribute('data-slide-to', index);
+                            if (index === 0) {
+                                indicator.classList.add('active');
+                            }
+                            indicators.appendChild(indicator);
+
+                            // Create the carousel item
+                            const carouselItem = document.createElement('div');
+                            carouselItem.classList.add('item');
+                            if (index === 0) {
+                                carouselItem.classList.add('active');
+                            }
+
+                            const img = document.createElement('img');
+                            img.src = item.image_l;
+                            img.alt = `Image ${index + 1}`;
+                            carouselItem.appendChild(img);
+
+                            inner.appendChild(carouselItem);
+                        });
+                    })
+                    .catch(error => {
+                        // Hide the loader and blur overlay in case of error
+                        document.getElementById("loader").style.display = "none";
+                        document.getElementById("blur-overlay").style.display = "none";
+
+                        console.error("Error:", error);
+                    });
+                }, 0);
+            }
+            else {
+                const toastElement = document.getElementById('customToast');
+
+                if (toastElement) { // Check if the element exists
+                    // Reset the toast visibility
+                    toastElement.style.opacity = '0';
+                    toastElement.style.display = 'block';
+
+                    // Force reflow to reset animation
+                    void toastElement.offsetWidth;
+
+                    // Show the toast
+                    toastElement.style.opacity = '1';
+
+                    // Add event listener to hide toast when closed
+                    toastElement.querySelector('.toastClose').addEventListener('click', () => {
+                        toastElement.style.display = 'none';
+                        console.log('Toast closed');
+                    });
+                    
+                } else {
+                    console.error('Toast element not found');
+                }
+            }
+        });
+
+
+
+
+
+        function validateNumberInput(event) {
+            const value = event.target.value;
+            const sanitizedValue = value.replace(/[^0-9]/g, '');
+            if (sanitizedValue === '' || parseInt(sanitizedValue, 10) < 1) {
+                event.target.value = '';
+            } else {
+                event.target.value = sanitizedValue;
+            }
+        }
+
+        document.getElementById('min-reviews-book').addEventListener('input', validateNumberInput);
+        document.getElementById('min-reviews-user').addEventListener('input', validateNumberInput);
+        document.getElementById('num-books-display').addEventListener('input', validateNumberInput);
+
+
+
+
+
+        // Get modal element
+        var modal = document.getElementById("bookModal");
+
+        // Get the images that open the modal
+        var images = document.querySelectorAll('.carousel-inner .item img');
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("cardClose")[0];
+
+        // When the user clicks on an image, open the modal 
+        images.forEach(image => {
+            image.onclick = function() {
+                // Set book details
+                document.getElementById("bookImage").src = this.src; // Set the book image
+                document.getElementById("bookTitle").textContent = "Book Title"; // Customize as needed
+                document.getElementById("bookAuthorName").textContent = "Author Name"; // Customize as needed
+                document.getElementById("bookPublisherName").textContent = "Publisher Name"; // Customize as needed
+                document.getElementById("bookYearPublished").textContent = "Year"; // Customize as needed
+                
+                modal.style.display = "flex"; // Center the modal using flex
+            }
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
+
+
+    </script>
+
+</body>
+</html>
+
+
+<!-- Title, Author, Year of Publication, Publisher -->
