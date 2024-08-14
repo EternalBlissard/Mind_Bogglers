@@ -45,7 +45,7 @@ body {
 
 .random {
     border: 2px solid #000;
-    padding: 0 10px;
+    padding: 0 0 0 10px;
     width: 100%;
     background-color: #FFF;
     border-radius: 10px;
@@ -71,7 +71,7 @@ body {
 
 #input-box {
     height: 50px;
-    width: 83%;
+    width: 86%;
     border: 0;
     outline: 0;
     font-size: 18px;
@@ -82,10 +82,13 @@ body {
 button {
     background: transparent;
     border: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     cursor: pointer;
     padding: 0;
     height: 50px;
-    width: 40px;
+    width: 51px;
+    background-color: #e0e0e0;
 }
 
 .fa-solid {
@@ -108,13 +111,13 @@ button {
 
 .result-box ul {
     border-top: 1px solid #999;
-    padding: 15px 10px;
+    padding: 15px 10px 15px 0;
     background-color: #FFF;
 }
 
 .result-box ul li {
     list-style: none;
-    padding: 15px 10px;
+    padding: 15px 10px 15px 0;
     border-radius: 3px;
     cursor: pointer;
 }
@@ -221,6 +224,10 @@ button {
     object-position: center; /* Centers the image within the carousel */
 }
 
+.carousel-inner .item img:hover {
+    cursor: pointer;
+}
+
 
 
 #recommend-msg{
@@ -302,4 +309,301 @@ canvas {
 
 .count-particles {
     border-radius: 0 0 3px 3px;
+}
+
+
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    width: 100%;
+    height: 100%;;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    position: relative;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+@keyframes breathing {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  @keyframes pulseBackground {
+    0% { background-color: #E0F7FA; }
+    50% { background-color: #4DD0E1; }
+    100% { background-color: #00838F; }
+  }
+  
+  .modal-content {
+    animation: pulseBackground 3.5s ease-in-out infinite alternate, breathing 7s ease-in-out infinite;
+  }
+  
+
+  
+
+/* Card Style */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    text-align: center;
+}
+
+/* Card Image */
+.card img {
+    max-width: 100%; /* Prevent image from exceeding card width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Adjusts the image to fit within the card */
+}
+
+
+/* Card Close Button */
+.cardClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cardClose:hover,
+.cardClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Card Details */
+.card-body h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card-body p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.card-body span {
+    font-weight: bold;
+}
+
+
+#customToast {
+    position: fixed;
+    top: 20%;
+    right: auto;
+    left: auto;
+    width: 300px;
+    z-index: 1050;
+    border: 1px solid rgba(241, 142, 6, 0.81);
+    background-color: rgba(220, 128, 1, 0.16);
+    box-shadow: 0px 0px 2px #ffb103;
+    color: #000;
+    text-shadow: 0.5px 1px #00040a;
+    transition:0.5s;
+    cursor:pointer;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    
+}
+
+#customToast:hover{
+    background-color: rgba(220, 128, 1, 0.33);
+    transition:0.5s;
+}
+
+
+.toastRow {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    position: relative; /* To position the close button */
+}
+
+.toastCol {
+    display: flex;
+    flex-direction: column; /* Align text vertically */
+    align-items: center; /* Center text horizontally */
+    text-align: center; /* Center text within the column */
+}
+
+.toastCol p{
+    color: #000;
+}
+
+.toastClose {
+    position: absolute; /* Position close button */
+    top: auto;
+    right: -20px;
+    padding: 10px;
+    color: #721c24;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.toastClose:hover,
+.toastClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+#customToast.show {
+    opacity: 1;
+    display: block;
+}
+
+#warning{
+    color:#ffb103;
+}
+
+
+/* Blurred overlay styles */
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 9998;
+    display: none;  /* Initially hidden */
+}
+
+/* Loader styles */
+.loader {
+    position: fixed; /* Fixed to stay in one place */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;  /* Ensure it's above the blur overlay */
+    display: none;  /* Initially hidden */
+}
+
+/* Camera loader styles */
+.camera {
+    width: 60px;
+    aspect-ratio: 1 / 1;
+    perspective: 500px;
+}
+
+.camera .loadContainer {
+    --x-pivot: -45deg;
+    transform-style: preserve-3d;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transform-origin: center;
+    transform: rotateX(var(--x-pivot)) rotateY(0deg);
+    animation: rotate 2s infinite;
+}
+
+.camera .side {
+    --i: 0;
+    --stroke: 2px;
+    height: calc(100% - var(--stroke) * 2);
+    width: calc(50% - var(--stroke) * 2);
+    position: absolute;
+    background: white;
+    border: var(--stroke) solid black;
+    transform: rotate3d(0, 1, 0, calc(45deg * var(--i)));
+    transform-origin: right center;
+    backface-visibility: visible;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(var(--x-pivot)) rotateY(22.5deg);
+        animation-timing-function: cubic-bezier(0.71, 0, 0.23, 0.99);
+    }
+    50% {
+        transform: rotateX(var(--x-pivot)) rotateY(200.5deg);
+        animation-timing-function: cubic-bezier(0.71, 0, 0.23, 0.99);
+    }
+    100% {
+        transform: rotateX(var(--x-pivot)) rotateY(382.5deg);
+        animation-timing-function: cubic-bezier(0.71, 0, 0.23, 0.99);
+    }
+}
+
+
+
+.navigation {
+    position: fixed; /* Fixes the navigation to the viewport */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    z-index: 1000; /* Ensure it is on top of other elements */
+}
+
+.logButton {
+    text-decoration: none;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    padding: 12px; /* Padding for button size */
+    color: white;
+    background-color: black;
+    border-radius: 25px; /* Rounded corners */
+    width: 150px; /* Initial width to fit the icon comfortably */
+    transition: width .35s, padding .35s; /* Smooth transitions for width and padding */
+    overflow: hidden;
+    margin: 0; /* Remove default margin */
+    white-space: nowrap; /* Prevent text from wrapping */
+    position: relative; /* Ensure positioning for child elements */
+}
+
+.logButton:hover {
+    width: 150px; /* Expanded width on hover to show the text */
+    padding: 12px 20px; /* Increase padding on hover for better layout */
+    justify-content: flex-start; /* Align items to the start (left) */
+}
+
+.logout {
+    font-size: .8em;
+    font-family: 'Oswald', sans-serif;
+    margin-left: 10px; /* Space between icon and text */
+    letter-spacing: 3px;
+    opacity: 1; /* Initially hidden */
+    transition: opacity .35s; /* Smooth transition for opacity */
+    color: white; /* Text color */
+    font-weight: bold; /* Bold text */
+    white-space: nowrap; /* Prevent text from wrapping */
+    display: inline-block; /* Ensure it behaves as inline element */
+}
+
+.logButton:hover .logout {
+    opacity: 1; /* Show the text on hover */
+}
+
+i.fa-regular.fa-user {
+    font-size: 25px; /* Adjust size if necessary */
+    color: white; /* Icon color */
 }
