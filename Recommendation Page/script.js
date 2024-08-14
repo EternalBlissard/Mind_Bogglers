@@ -23,7 +23,7 @@ inputBox.onkeyup = function() {
         result = allBooks.filter((keyword)=> {
            return keyword.toLowerCase().includes(search);
         });
-        console.log(result);
+        
     }
     displayResult(result);
 
@@ -39,7 +39,19 @@ function displayResult(result) {
     }).join('');
 
     resultBox.innerHTML = `<ul>${content}</ul>`;
+
+    // Add event listener to each list item
+    const listItems = document.querySelectorAll('.result-box ul li');
+    listItems.forEach(item => {
+        item.addEventListener('click', () => {
+            inputBox.value = item.textContent;
+            resultBox.innerHTML = '';            // Clear the result box after selection
+        });
+    });
+    
 }
+
+
 
 // Hide suggestions when clicking outside the search box
 document.addEventListener('click', function(event) {
@@ -49,6 +61,7 @@ document.addEventListener('click', function(event) {
     if (!isClickInside && !isClickInsideResultBox) {
         resultBox.innerHTML = ''; // Clear the result box
     }
+    
 });
 
 // Show suggestions when clicking inside the search box
@@ -63,6 +76,59 @@ inputBox.addEventListener('focus', function() {
 });
 
 
+const searchButton = document.querySelector('#search-button');
+
+searchButton.addEventListener('click', () => {
+    const query = inputBox.value.trim().toLowerCase();
+    const bookExists = allBooks.some(book => book.toLowerCase() === query);
+
+    if (bookExists) {
+        // Show the loader and blur overlay
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("blur-overlay").style.display = "block";
+
+        setTimeout(() => {
+            // Hide the loader and blur overlay
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("blur-overlay").style.display = "none";
+
+            // Change the text after the delay
+            const p = document.getElementById("recommend-msg");
+            p.innerHTML = "Your Selected Book";
+            
+        }, 6000); 
+    }
+
+    else {
+        const toastElement = document.getElementById('customToast');
+
+        if (toastElement) { // Check if the element exists
+            // Reset the toast visibility
+            toastElement.style.opacity = '0';
+            toastElement.style.display = 'block';
+
+            // Force reflow to reset animation
+            void toastElement.offsetWidth;
+
+            // Show the toast
+            toastElement.style.opacity = '1';
+
+            // Add event listener to hide toast when closed
+            toastElement.querySelector('.toastClose').addEventListener('click', () => {
+                toastElement.style.display = 'none';
+                console.log('Toast closed');
+            });
+            
+        } else {
+            console.error('Toast element not found');
+        }
+    }
+});
+
+
+
+
+
 function validateNumberInput(event) {
     const value = event.target.value;
     const sanitizedValue = value.replace(/[^0-9]/g, '');
@@ -75,7 +141,46 @@ function validateNumberInput(event) {
 
 document.getElementById('min-reviews-book').addEventListener('input', validateNumberInput);
 document.getElementById('min-reviews-user').addEventListener('input', validateNumberInput);
-document.getElementById('num-books').addEventListener('input', validateNumberInput);
+document.getElementById('num-books-display').addEventListener('input', validateNumberInput);
+
+
+
+
+
+// Get modal element
+var modal = document.getElementById("bookModal");
+
+// Get the images that open the modal
+var images = document.querySelectorAll('.carousel-inner .item img');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("cardClose")[0];
+
+// When the user clicks on an image, open the modal 
+images.forEach(image => {
+    image.onclick = function() {
+        // Set book details
+        document.getElementById("bookImage").src = this.src; // Set the book image
+        document.getElementById("bookTitle").textContent = "Book Title"; // Customize as needed
+        document.getElementById("bookAuthorName").textContent = "Author Name"; // Customize as needed
+        document.getElementById("bookPublisherName").textContent = "Publisher Name"; // Customize as needed
+        document.getElementById("bookYearPublished").textContent = "Year"; // Customize as needed
+        
+        modal.style.display = "flex"; // Center the modal using flex
+    }
+});
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 
 
