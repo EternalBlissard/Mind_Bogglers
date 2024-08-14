@@ -6,22 +6,73 @@
     <title>Book Recommender</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
     <!-- <link rel="stylesheet" href="vanta-fog.css">     -->
 
     <script src="https://kit.fontawesome.com/26c4b29c7d.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    
     
 
 </head>
 <body style="background-color: rgb(18, 102, 95);">
+    <div class="navigation">
+        <a class="logButton" href="">
+            <i class="fa-regular fa-user"></i> 
+        <div class="logout">LOGOUT</div>
+        </a> 
+    </div>
+
+  
+
+    
+
+
+    <div id="loader" class="loader">
+        <div class="camera">
+            <div class="loadContainer">
+              <div class="side" style="--i: 0; background: #D9ED92;"></div>
+              <div class="side" style="--i: 1; background: #B5E48C;"></div>
+              <div class="side" style="--i: 2; background: #99D98C;"></div>
+              <div class="side" style="--i: 3; background: #76C893;"></div>
+              <div class="side" style="--i: 4; background: #52B69A;"></div>
+              <div class="side" style="--i: 5; background: #34A0A4;"></div>
+              <div class="side" style="--i: 6; background: #168AAD;"></div>
+              <div class="side" style="--i: 7; background: #1A759F;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="blur-overlay" class="blur-overlay"></div>
+
+
+
+    <div id="customToast">
+        <div class="toastRow">
+            <div class="toastCol">
+                <i id = "warning" class="fa-solid fa-triangle-exclamation"></i>
+                <strong>Book not found!</strong>
+                <p>Please Select another book</p>
+            </div>
+            
+            <button type="button" class="toastClose" data-dismiss="alert" aria-hidden="true">&times;</button>
+            
+        </div>
+    </div>
+    
+    
+
     <div class="container">
         <div class="left-part">
             <div class="search-box">
                 <div class="row">
                     <div class="random">
                         <input type="text" id="input-box" placeholder="Search a book" autocomplete="off">
-                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button id = "search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <!-- <div id="alert-container"></div>  Alert msg -->
+                        
+                        
                         <div class="result-box">
                             <!-- Result box here -->
                         </div>
@@ -111,6 +162,29 @@
              
         </div>
     </div>
+
+
+
+
+    <!-- Modal to display info about the book -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="cardClose">&times;</span>
+            <div class="card">
+                <img id="bookImage" src="" alt="Book Image">
+                <div class="card-body">
+                    <h2 id="bookTitle">Book Title</h2>
+                    <p id="bookAuthor">Author: <span id="bookAuthorName">Author Name</span></p>
+                    <p id="bookPublisher">Publisher: <span id="bookPublisherName">Publisher Name</span></p>
+                    <p id="bookYear">Year of Publication: <span id="bookYearPublished">Year</span></p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
   
     <script src="script.js"></script>
 
