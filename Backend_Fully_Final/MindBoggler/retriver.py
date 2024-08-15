@@ -73,7 +73,7 @@ def giveBooks(minNumReviewsUser,minNumReviewsBook,bookName,Len):
     # f.close()
     pt = frequentBooksGen.pivot_table(index='title',columns='user_id',values='rating')
     pt.fillna(0,inplace=True)
-    print(len(frequentBooksGen))
+    print("freq",len(frequentBooksGen))
 
     similarity_scores = cosine_similarity(pt)
     li = recommend(bookName,pt, similarity_scores,Len+1,books)
@@ -87,9 +87,24 @@ def giveBooks(minNumReviewsUser,minNumReviewsBook,bookName,Len):
 def getUserBooks(user_id):
     con = sqlite3.connect("db.sqlite3")
     cur = con.cursor()
-    cur.execute(f"SELECT title from user_ratings WHERE user_id={user_id}")
-    res = cursor.fetchall()
-    if((res)>0):
-        return giveBooks(250,250,res[0],5)
+    cur.execute(f"SELECT isbn_id from user_rating WHERE user_id_id={str(user_id)}")
+    res = cur.fetchall()
+    # print(user_id)
+    # print(res)
+    if(len(res)>0):
+        cur.execute(f"SELECT title,image_l from user_book WHERE isbn='{res[0][0]}'")
+        title = cur.fetchall()
+        # print("title",title)
+        Dict = dict()
+        Dict['image_l'] = title[0][1]
+        return giveBooks(200,200,title[0][0],5),Dict
     else:
-        return giveBooks(250,250,"Harry Potter and the Chamber of Secrets (Book 2)",5)
+        cur.execute(f"SELECT title,image_l from user_book WHERE title='Harry Potter and the Chamber of Secrets (Book 2)'")
+        title = cur.fetchall()
+        # print("title",title)
+        Dict = dict()
+        Dict['image_l'] = title[0][1]
+        return giveBooks(250,250,"Harry Potter and the Chamber of Secrets (Book 2)",5),Dict
+    
+
+# print(getUserBooks(1))

@@ -79,22 +79,21 @@
                 </div>
             </div>
 
-            <form class="filters" method="POST" aciton="">
-                {% csrf_token %}
+            <div class="filters">
                 <div class="filter">
-                    <label for="min-reviews-book">Minimum number of reviews (book):</label>
+                    <label for="min-reviews-book">Minimum number of reviews for book :</label>
                     <input type="number" id="min-reviews-book" min="1" name="min-reviews-book">
                 </div>
                 <div class="filter">
-                    <label for="min-reviews-user">Minimum number of reviews (user):</label>
+                    <label for="min-reviews-user">Minimum number of reviews by the user :</label>
                     <input type="number" id="min-reviews-user" min="1" name="min-reviews-user">
                 </div>
                 <div class="filter">
-                    <label for="num-books-display">Number of recommended books to display:</label>
+                    <label for="num-books-display">Number of recommended books to display :</label>
                     <input type="number" id="num-books-display" min="1" name="num-books-display">
                 </div>
                 <button id="apply-filters" type="submit">Apply Filters</button>
-            </form>
+            </div>
 
 
 
@@ -173,6 +172,7 @@
     <script src="vanta-fog.js"></script> -->
 
     <script>
+        let imageDict={}
         function getCookie(name)
         {
             let cookieValue = null;
@@ -192,23 +192,79 @@
             return cookieValue;
         }
         let allBooks = [];
-        fetch("/user/home/",{
-            method:'POST',
-            headers:{
-                'X-CSRFToken':getCookie('csrftoken'),
-                'X-Requested-With':'XMLHttpRequest',
-                'Conetent-Type':'application/json',  
-            }
-        })
-        .then(response=>response.json())
-        // .then(data=>allBooks=data)
-        .then(data=>{
-            console.log("Data = ",data);
-            allBooks = [...data['Books']]
-            console.log("Length = ",allBooks.length)
-        })
-        .catch(error=>console.log(error));
+        let count=0;
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("blur-overlay").style.display = "block";
+            // Use setTimeout to ensure the loader displays before the fetch request starts
+        setTimeout(() => {
+            fetch("/user/home/", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                allBooks = [...data['Books']]
+                // Hide the loader and blur overlay after successful request
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("blur-overlay").style.display = "none";
 
+                // Update the content with the response data
+                // console.log("Image: ", data['Books'])/;
+                // console.log("Recommendations: ", data['recomm']);
+
+                const p = document.getElementById("recommend-msg");
+                const recommendations = data['recomm'];
+                p.innerHTML = "Because You Read";
+
+                const img = document.getElementById("selectedBook");
+                img.src = data['Book'].image_l;
+
+                const indicators = document.getElementById('carousel-indicators');
+                const inner = document.getElementById('carousel-inner');
+
+                // Clear the existing carousel content
+                indicators.innerHTML = '';
+                inner.innerHTML = '';
+
+                // Generate the new carousel content
+                recommendations.forEach((item, index) => {
+                    // Create the indicator
+                    const indicator = document.createElement('li');
+                    indicator.setAttribute('data-target', '#myCarousel');
+                    indicator.setAttribute('data-slide-to', index);
+                    if (index === 0) {
+                        indicator.classList.add('active');
+                    }
+                    indicators.appendChild(indicator);
+
+                    // Create the carousel item
+                    const carouselItem = document.createElement('div');
+                    carouselItem.classList.add('item');
+                    if (index === 0) {
+                        carouselItem.classList.add('active');
+                    }
+
+                    const img = document.createElement('img');
+                    img.src = item.image_l;
+                    img.alt = `Image ${index + 1}`;
+                    imageDict[item.image_l]=[item.title,item.author,item.publisher,item.year];
+                    carouselItem.appendChild(img);
+
+                    inner.appendChild(carouselItem);
+                });
+            })
+            .catch(error => {
+                // Hide the loader and blur overlay in case of error
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("blur-overlay").style.display = "none";
+
+                console.error("Error:", error);
+            });
+        }, 0);
 
         const resultBox = document.querySelector('.result-box');
         const inputBox = document.querySelector('#input-box');
@@ -309,8 +365,24 @@
         });
 
 
-        const searchButton = document.querySelector('#search-button');
+        const allFilters = [100, 100, 5];
+        const filterButton = document.querySelector('#apply-filters');
+
+        filterButton.addEventListener('click', () => {
+            const minReviewsBook = document.getElementById('min-reviews-book').value;
+            const minReviewsUser = document.getElementById('min-reviews-user').value;
+            const numBooksDisplay = document.getElementById('num-books-display').value;
+
+            allFilters[0] = minReviewsBook;
+            allFilters[1] = minReviewsUser;
+            allFilters[2] = numBooksDisplay;
+
+            console.log("Filters applied: ", allFilters);
+        });
+
+        let finRecommendations = [];
        
+        const searchButton = document.querySelector('#search-button');
         searchButton.addEventListener('click', () => {
             const ipbox = inputBox.value.trim()
             const query = inputBox.value.trim().toLowerCase();
@@ -318,6 +390,7 @@
             console.log("Ipbox = ",ipbox);
             if (bookExists) {
                 // Show the loader and blur overlay
+                imageDict={}
                 document.getElementById("loader").style.display = "block";
                 document.getElementById("blur-overlay").style.display = "block";
 
@@ -331,7 +404,10 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            'book_name': ipbox
+                            'book_name': ipbox,
+                            'min_reviews_book':allFilters[0],
+                            'min_reviews_user':allFilters[1],
+                            'num_books_display':allFilters[2]
                         })
                     })
                     .then(response => response.json())
@@ -346,6 +422,7 @@
 
                         const p = document.getElementById("recommend-msg");
                         const recommendations = data['recomm'];
+                        finRecommendations = recommendations;
                         p.innerHTML = "Your Selected Book";
 
                         const img = document.getElementById("selectedBook");
@@ -379,8 +456,8 @@
                             const img = document.createElement('img');
                             img.src = item.image_l;
                             img.alt = `Image ${index + 1}`;
+                            imageDict[item.image_l]=[item.title,item.author,item.publisher,item.year];
                             carouselItem.appendChild(img);
-
                             inner.appendChild(carouselItem);
                         });
                     })
@@ -444,22 +521,25 @@
         // Get modal element
         var modal = document.getElementById("bookModal");
 
-        // Get the images that open the modal
-        var images = document.querySelectorAll('.carousel-inner .item img');
+        
+        var carouselInner = document.querySelector('.carousel-inner');
 
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("cardClose")[0];
 
-        // When the user clicks on an image, open the modal 
-        images.forEach(image => {
-            image.onclick = function() {
+        // When the user clicks on an image inside the carousel-inner, open the modal
+        carouselInner.addEventListener('click', function(event) {
+            // Check if the clicked element is an image
+            if (event.target.tagName === 'IMG') {
+                console.log("Image clicked");
+
                 // Set book details
-                document.getElementById("bookImage").src = this.src; // Set the book image
-                document.getElementById("bookTitle").textContent = "Book Title"; // Customize as needed
-                document.getElementById("bookAuthorName").textContent = "Author Name"; // Customize as needed
-                document.getElementById("bookPublisherName").textContent = "Publisher Name"; // Customize as needed
-                document.getElementById("bookYearPublished").textContent = "Year"; // Customize as needed
-                
+                document.getElementById("bookImage").src = event.target.src; // Set the book image
+                document.getElementById("bookTitle").textContent = imageDict[event.target.src][0]; // Customize as needed
+                document.getElementById("bookAuthorName").textContent =  imageDict[event.target.src][1]; // Customize as needed
+                document.getElementById("bookPublisherName").textContent =  imageDict[event.target.src][2]; // Customize as needed
+                document.getElementById("bookYearPublished").textContent =  imageDict[event.target.src][3]; // Customize as needed
+
                 modal.style.display = "flex"; // Center the modal using flex
             }
         });

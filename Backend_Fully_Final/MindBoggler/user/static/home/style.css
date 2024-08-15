@@ -485,60 +485,6 @@ canvas {
 }
 
 
-.navigation {
-    position: fixed; /* Fixes the navigation to the viewport */
-    top: 10px; /* Distance from the top */
-    right: 10px; /* Distance from the right */
-    z-index: 1000; /* Ensure it is on top of other elements */
-}
-
-.logButton {
-    text-decoration: none;
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-    padding: 12px; /* Padding for button size */
-    color: white;
-    background-color: black;
-    border-radius: 25px; /* Rounded corners */
-    width: 150px; /* Initial width to fit the icon comfortably */
-    transition: width .35s, padding .35s; /* Smooth transitions for width and padding */
-    overflow: hidden;
-    margin: 0; /* Remove default margin */
-    white-space: nowrap; /* Prevent text from wrapping */
-    position: relative; /* Ensure positioning for child elements */
-}
-
-.logButton:hover {
-    width: 150px; /* Expanded width on hover to show the text */
-    padding: 12px 20px; /* Increase padding on hover for better layout */
-    justify-content: flex-start; /* Align items to the start (left) */
-}
-
-.logout {
-    font-size: .8em;
-    font-family: 'Oswald', sans-serif;
-    margin-left: 10px; /* Space between icon and text */
-    letter-spacing: 3px;
-    opacity: 1; /* Initially hidden */
-    transition: opacity .35s; /* Smooth transition for opacity */
-    color: white; /* Text color */
-    font-weight: bold; /* Bold text */
-    white-space: nowrap; /* Prevent text from wrapping */
-    display: inline-block; /* Ensure it behaves as inline element */
-}
-
-.logButton:hover .logout {
-    opacity: 1; /* Show the text on hover */
-}
-
-i.fa-regular.fa-user {
-    font-size: 25px; /* Adjust size if necessary */
-    color: white; /* Icon color */
-}
-
-
-
 /* Blurred overlay styles */
 .blur-overlay {
     position: fixed;
@@ -606,4 +552,58 @@ i.fa-regular.fa-user {
         transform: rotateX(var(--x-pivot)) rotateY(382.5deg);
         animation-timing-function: cubic-bezier(0.71, 0, 0.23, 0.99);
     }
+}
+
+
+
+.navigation {
+    position: fixed; /* Fixes the navigation to the viewport */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    z-index: 1000; /* Ensure it is on top of other elements */
+}
+
+.logButton {
+    text-decoration: none;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    padding: 12px; /* Padding for button size */
+    color: white;
+    background-color: black;
+    border-radius: 25px; /* Rounded corners */
+    width: 150px; /* Initial width to fit the icon comfortably */
+    transition: width .35s, padding .35s; /* Smooth transitions for width and padding */
+    overflow: hidden;
+    margin: 0; /* Remove default margin */
+    white-space: nowrap; /* Prevent text from wrapping */
+    position: relative; /* Ensure positioning for child elements */
+}
+
+.logButton:hover {
+    width: 150px; /* Expanded width on hover to show the text */
+    padding: 12px 20px; /* Increase padding on hover for better layout */
+    justify-content: flex-start; /* Align items to the start (left) */
+}
+
+.logout {
+    font-size: .8em;
+    font-family: 'Oswald', sans-serif;
+    margin-left: 10px; /* Space between icon and text */
+    letter-spacing: 3px;
+    opacity: 1; /* Initially hidden */
+    transition: opacity .35s; /* Smooth transition for opacity */
+    color: white; /* Text color */
+    font-weight: bold; /* Bold text */
+    white-space: nowrap; /* Prevent text from wrapping */
+    display: inline-block; /* Ensure it behaves as inline element */
+}
+
+.logButton:hover .logout {
+    opacity: 1; /* Show the text on hover */
+}
+
+i.fa-regular.fa-user {
+    font-size: 25px; /* Adjust size if necessary */
+    color: white; /* Icon color */
 }
