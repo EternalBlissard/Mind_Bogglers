@@ -44,7 +44,8 @@ Currently, a product with a 5-star rating from 10 customers provides less reliab
 ## Screenshots
 Include screenshots or a GIF to showcase your project.
 
-![Screenshot](path/to/screenshot.png)
+![image](https://github.com/user-attachments/assets/19e97965-9003-44fa-9306-a30ef96744d5)
+
 
 ## Contributing
 Contributions are welcome! Please follow the [contributing guidelines](CONTRIBUTING.md).
