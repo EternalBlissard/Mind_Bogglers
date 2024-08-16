@@ -34,7 +34,7 @@ A brief introduction to your project, describing its purpose and functionality. 
    \`\`\`
 3. Install the required dependencies:
    \`\`\`bash
-   npm install
+   python -m pip install Django
    \`\`\`
 
 ## Usage
