@@ -6,9 +6,7 @@ echo "# Project Title
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Screenshots](#screenshots)
 - [Contributing](#contributing)
@@ -35,20 +33,13 @@ Currently, a product with a 5-star rating from 10 customers provides less reliab
    python -m pip install Django
    \`\`\`
 
-## Usage
-Provide instructions on how to use your project. Include code snippets, screenshots, or examples.
-
-\`\`\`bash
-npm start
-\`\`\`
 
 ## Technologies Used
 - HTML5
 - CSS3
 - JavaScript (ES6+)
 - Bootstrap
-- Vanta.js
-- [Any other relevant technologies]
+- Django
 
 ## Screenshots
 Include screenshots or a GIF to showcase your project.
