@@ -1,9 +1,5 @@
 # Mind_Bogglers
 
-# Create README.md File for GitHub Project
-
-echo "# Project Title
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
