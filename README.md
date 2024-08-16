@@ -16,12 +16,10 @@ echo "# Project Title
 - [Contact](#contact)
 
 ## Introduction
-A brief introduction to your project, describing its purpose and functionality. Explain the problem it solves and why it's useful.
+Developed a website for recommending books to users based on reviews using collaborative filtering.
 
-## Features
-- Feature 1
-- Feature 2
-- Feature 3
+## Problem Statement
+Currently, a product with a 5-star rating from 10 customers provides less reliable information than one with a 4.8-star rating from 1000 users, as a larger number of reviews offers a more comprehensive perspective. To address this issue, we have developed a collaborative filtering model that allows users to filter similar products based on minimum review counts and to only consider ratings from users who have provided at least a specified number of reviews.
 
 ## Installation
 1. Clone the repository:
