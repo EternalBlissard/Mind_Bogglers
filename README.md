@@ -9,9 +9,7 @@ echo "# Project Title
 - [Installation](#installation)
 - [Technologies Used](#technologies-used)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
 
 ## Introduction
 Developed a website for recommending books to users based on reviews using collaborative filtering.
@@ -47,13 +45,7 @@ Include screenshots or a GIF to showcase your project.
 ![image](https://github.com/user-attachments/assets/19e97965-9003-44fa-9306-a30ef96744d5)
 
 
-## Contributing
-Contributions are welcome! Please follow the [contributing guidelines](CONTRIBUTING.md).
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
-For any inquiries or feedback, please contact me at [your.email@example.com](mailto:your.email@example.com).
-" > README.md
 
