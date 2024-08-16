@@ -1,1 +1,1 @@
-# Mind_Boggler
+# Mind_Bogglers
