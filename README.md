@@ -36,9 +36,13 @@ Currently, a product with a 5-star rating from 10 customers provides less reliab
 - Django
 
 ## Screenshots
-Include screenshots or a GIF to showcase your project.
+
 
 ![image](https://github.com/user-attachments/assets/19e97965-9003-44fa-9306-a30ef96744d5)
+![image](https://github.com/user-attachments/assets/24718079-9834-456a-97c0-d211046ef707)
+![image](https://github.com/user-attachments/assets/b234f5b5-1a96-442d-9b33-c4111ac9f40f)
+![image](https://github.com/user-attachments/assets/428f56c0-d6be-45b6-9d89-9c92f0b7e931)
+
 
 
 ## License
