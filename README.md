@@ -15,9 +15,6 @@ Currently, a product with a 5-star rating from 10 customers provides less reliab
 
 ## Installation
 1. Clone the repository:
-   \`\`\`bash
-   git clone https://github.com/EternalBlissard/Mind_Bogglers.git
-   \`\`\`
 2. Navigate to the project directory:
    \`\`\`bash
    cd Mind_Bogglers
